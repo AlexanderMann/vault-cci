@@ -1,24 +1,14 @@
 version: 2.0
 jobs:
   deploy:
-    docker:
-      - image: circleci/golang:1.8
+    machine:
+      enabled: true
     working_directory: /home/circleci/vault
     environment:
       DOCKER_IMAGE=mannimal/vault-cci
 
     steps:
       - checkout
-
-      - setup_remote_docker
-      # `deploy` a special `run` step that only gets run once
-      #   even when parallelism is involved:
-      #   https://circleci.com/docs/2.0/configuration-reference/#deploy
-      - deploy:
-          name: Install Docker client
-          command: |
-            set -x
-            sudo curl -fsSLO https://get.docker.com/builds/Linux/x86_64/docker-17.05.0-ce.tgz && sudo tar --strip-components=1
 
       - run:
           name: Build image
