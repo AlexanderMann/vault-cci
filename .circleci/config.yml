@@ -1,0 +1,34 @@
+version: 2.0
+jobs:
+   machine:
+     enabled: true
+   working_directory: /home/circleci/vault
+   environment:
+     DOCKER_IMAGE=mannimal/vault-transit
+
+   steps:
+     - checkout
+
+     - run:
+         name: Build image
+         command: docker build -t $DOCKER_IMAGE .
+
+     - run:
+         name: Tag and deploy image to docker hub
+         command: |
+           SHORT_SHA=$(git rev-parse --short HEAD)
+           VERSION="0.1.${CIRCLE_BUILD_NUM}-${SHORT_SHA}"
+
+           docker tag $DOCKER_IMAGE $DOCKER_IMAGE:$VERSION
+           docker login -u $DOCKER_HUB_LOGIN -p $DOCKER_HUB_PASSWORD
+           docker push $DOCKER_IMAGE
+
+workflows:
+  version: 2
+  deploy:
+    jobs:
+      - deploy:
+          filters:
+            branches:
+              only: master
+
