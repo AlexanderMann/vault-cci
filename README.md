@@ -1,4 +1,7 @@
 # vault-cci
+
+[![CircleCI](https://circleci.com/gh/AlexanderMann/vault-cci.svg?style=svg)](https://circleci.com/gh/AlexanderMann/vault-cci)
+
 Simple vault container for use in CircleCI 2.0
 
 ***DO NOT USE THIS IN A PRODUCTION SETTING***
@@ -6,7 +9,7 @@ Simple vault container for use in CircleCI 2.0
 In using this container you can gain access to the client token from outside the container using `curl`:
 
 ```
-curl localhost:8021/.vault_token
+curl localhost:8201/.vault_token
 ```
 
 This allows you to do whatever initialization/testing against vault, essentially getting aroung the lack of default client tokens.
@@ -28,6 +31,5 @@ jobs:
     - checkout
     - run:
         name: Setup Vault
-        command:
+        command: curl localhost:8201/.vault_token
 ```
-
