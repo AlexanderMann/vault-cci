@@ -5,7 +5,7 @@ jobs:
        enabled: true
      working_directory: /home/circleci/vault
      environment:
-       DOCKER_IMAGE=mannimal/vault-transit
+       DOCKER_IMAGE=mannimal/vault-cci
 
      steps:
        - checkout
