@@ -2,6 +2,8 @@
 
 [![CircleCI](https://circleci.com/gh/AlexanderMann/vault-cci.svg?style=svg)](https://circleci.com/gh/AlexanderMann/vault-cci)
 
+[Published Continuously on Dockerhub using CircleCI](https://hub.docker.com/r/mannimal/vault-cci/)
+
 Simple vault container for use in CircleCI 2.0
 
 ***DO NOT USE THIS IN A PRODUCTION SETTING***
