@@ -1,6 +1,8 @@
 #!/bin/sh
 set -ex
 
+mkdir /vault/__restricted;
+
 status() {
   vault status 2>&1
 }
@@ -29,7 +31,6 @@ setup_token() {
 
   # period of 100 days
   vault token-create -period="2400h" > /vault/file/client-token;
-  mkdir /vault/__restricted/;
   grep -e 'token ' /vault/file/client-token | sed 's/^token\W*//g' > /vault/__restricted/client-token;
 }
 
