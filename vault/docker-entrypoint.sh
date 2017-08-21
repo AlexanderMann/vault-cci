@@ -64,6 +64,9 @@ child_process () {
 }
 
 vault_server() {
+  if [[ "skip" = "$SKIP_SETCAP" ]]; then
+    sed -i 's/false/true/g' /vault/config/vault.json;
+  fi;
   vault server -config=/vault/config/;
 }
 
