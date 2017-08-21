@@ -61,10 +61,14 @@ child_process () {
   status;
 }
 
+vault_server() {
+  vault server -config=/vault/config/;
+}
+
 python_http_server() {
   # we want to be able to serve the VAULT_TOKEN for testing
   cd /vault/file/__restricted
   python -m SimpleHTTPServer 8201
 }
 
-child_process & vault server -config=/vault/config/ & python_http_server
+child_process & vault_server & python_http_server
