@@ -29,7 +29,8 @@ setup_token() {
 
   # period of 100 days
   vault token-create -period="2400h" > /vault/file/client-token;
-  grep -e 'token ' /vault/file/client-token | sed 's/^token\W*//g' > /vault/file/__restricted/client-token;
+  mkdir /vault/__restricted/;
+  grep -e 'token ' /vault/file/client-token | sed 's/^token\W*//g' > /vault/__restricted/client-token;
 }
 
 unseal() {
@@ -67,8 +68,8 @@ vault_server() {
 
 python_http_server() {
   # we want to be able to serve the VAULT_TOKEN for testing
-  cd /vault/file/__restricted
-  python -m SimpleHTTPServer 8201
+  cd /vault/__restricted;
+  python -m SimpleHTTPServer 8201;
 }
 
 child_process & vault_server & python_http_server
