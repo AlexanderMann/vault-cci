@@ -1,7 +1,7 @@
 #!/bin/sh
 set -ex
 
-mkdir /vault/__restricted;
+mkdir -p /vault/__restricted;
 
 status() {
   vault status 2>&1
