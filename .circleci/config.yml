@@ -1,11 +1,24 @@
 version: 2.0
 jobs:
+  build:
+    machine:
+      enabled: true
+    working_directory: /home/circleci/vault
+    environment:
+      DOCKER_IMAGE=circleci/vault-cci
+
+    steps:
+      - checkout
+
+      - run:
+          name: Build image
+          command: docker build -t $DOCKER_IMAGE .
   deploy:
     machine:
       enabled: true
     working_directory: /home/circleci/vault
     environment:
-      DOCKER_IMAGE=mannimal/vault-cci
+      DOCKER_IMAGE=circleci/vault-cci
 
     steps:
       - checkout
@@ -18,18 +31,21 @@ jobs:
           name: Tag and deploy image to docker hub
           command: |
             SHORT_SHA=$(git rev-parse --short HEAD)
-            VERSION="0.2.${CIRCLE_BUILD_NUM}-${SHORT_SHA}"
+            VERSION="0.3.${CIRCLE_BUILD_NUM}-${SHORT_SHA}"
 
             docker tag $DOCKER_IMAGE $DOCKER_IMAGE:$VERSION
-            docker login -u $DOCKER_HUB_LOGIN -p $DOCKER_HUB_PASSWORD
+            docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASSWORD
             docker push $DOCKER_IMAGE
 
 workflows:
   version: 2
   deploy:
     jobs:
+      - build
       - deploy:
           context: org-global
+          requires:
+            - build
           filters:
             branches:
               only: master
