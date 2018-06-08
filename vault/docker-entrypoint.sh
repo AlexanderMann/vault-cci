@@ -27,10 +27,10 @@ wait() {
 setup_token() {
   root_token=`grep 'Root' /vault/file/vault-init-out | sed 's/^.*: //g'`
 
-  vault auth $root_token;
+  vault login $root_token;
 
   # period of 100 days
-  vault token-create -period="2400h" > /vault/file/client-token;
+  vault token create -period="768h" > /vault/file/client-token;
   grep -e 'token ' /vault/file/client-token | sed 's/^token\W*//g' > /vault/__restricted/client-token;
 }
 
@@ -38,18 +38,18 @@ unseal() {
   keys=`head -n 3 /vault/file/vault-init-out | sed 's/^.*: //g'`
 
   for k in $keys; do
-    vault unseal $k;
+    vault operator unseal $k;
   done;
 
   setup_token;
 }
 
 bootstrap() {
-  vault init > /vault/file/vault-init-out 2>&1
+  vault operator init > /vault/file/vault-init-out 2>&1
 
   unseal;
 
-  vault mount transit;
+  vault secrets enable transit
 }
 
 child_process () {
