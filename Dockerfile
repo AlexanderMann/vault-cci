@@ -1,6 +1,6 @@
 FROM vault:0.10.0
 
-RUN apk add --update python
+RUN apk add --update python libressl
 
 ADD ./vault/ /vault
 WORKDIR /vault
