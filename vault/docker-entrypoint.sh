@@ -49,7 +49,6 @@ bootstrap() {
 
   unseal;
 
-  vault kv enable-versioning secret/
   vault secrets enable transit
 }
 
