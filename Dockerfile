@@ -1,4 +1,4 @@
-FROM vault:0.7.3
+FROM vault:0.8.3
 
 RUN apk add --update python
 
